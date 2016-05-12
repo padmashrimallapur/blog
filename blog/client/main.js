@@ -1,22 +1,31 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+//users = new Mongo.Collection('users');
+if (Meteor.isClient) {
 
-import './main.html';
+  Template.register.events ({
+    'submit form' : function(event){
+      event.preventDefault();
+      var username = $('[name=username]').val();
+      var password = $('[name=password]').val();
+      Accounts.createUser({
+        username : username,
+        password : password
+      });
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-});
+      Router.go('home');
+    }
+  });
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
+  Template.navigation.events({
+    'click .logout': function(event){
+      event.preventDefault();
+      Meteor.logout();
+      Router.go('login');
+    }
+  });
 
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
-});
+}
+
+
+Router.route('/register');
+Router.route('/login');
+Router.route('/home');

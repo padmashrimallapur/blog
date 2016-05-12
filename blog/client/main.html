@@ -1,25 +1,30 @@
 <head>
   <title>simple</title>
 </head>
-
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
-  {{> info}}
+  <h1>Welcome to Blogging!</h1>
+  {{> navigation}}
 </body>
-
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="register">
+    <h2>Register</h2>
+    <form class="register">
+        <p>Username : <input type="text" name="username"></p>
+        <p>Password : <input type="password" name="password"></p>
+        <p><input type="submit" value="Register"></p>
+    </form>
 </template>
 
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com">Discussions</a></li>
-  </ul>
+<template name="navigation">
+    <ul>
+        <li><a href="{{pathFor route='home'}}">Home</a></li>
+        {{#if currentUser}}
+            <li><a href="#" class="logout">Logout</a></li>
+        {{/if}}
+        <li><a href="{{pathFor route='register'}}">Register</a></li>
+        <li><a href="{{pathFor route='login'}}">Login</a></li>
+    </ul>
+</template>
+
+<template name="home">
+    <h2>Home</h2>
 </template>

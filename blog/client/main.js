@@ -1,6 +1,10 @@
 //users = new Mongo.Collection('users');
 if (Meteor.isClient) {
 
+  Template.registerHelper('currentUser',function(input){
+    return Session.get("currentUser");
+  });
+
   Template.register.events ({
     'submit form' : function(event){
       event.preventDefault();
@@ -53,11 +57,14 @@ Template.login.events({
       }
       else{
         console.log("you are successfully logged in");
+        Session.set("currentUser", username);
         Router.go('home');
       }
     });
   }
 });
+
+
 
 Meteor.methods({
   checkPassword: function(password, confirmPassword){

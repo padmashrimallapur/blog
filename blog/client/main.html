@@ -40,4 +40,12 @@
 
 <template name="home">
     <h2>Home</h2>
+    <p>Welcome {{currentUser}}</p>
+    <form class="home">
+        <p>First Name: <input type="text" name="bloggerName" required></p>
+        <p>Last Name : <input type="text" name="bloggerLastName" required></p>
+        <p>Title of article : <input type="text" name="title" required></p>
+        <p><textarea maxlength="2000" rows="20" cols="100">Publish article</textarea> </p>
+        <p><input type="submit" value="Publish" ></p>
+    </form>
 </template>

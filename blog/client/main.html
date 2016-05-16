@@ -4,12 +4,14 @@
 <body>
   <h1>Welcome to Blogging!</h1>
   {{> navigation}}
+
 </body>
 
 <template name="navigation">
     <div class="nav">
     <ul>
         <li><a href="{{pathFor route='home'}}">Home</a></li>
+        <!--<li><a href="{{pathFor route='listblogs'}}">Blog List</a></li>-->
         {{#if currentUser}}
             <li><a href="#" class="logout">Logout</a></li>
         {{/if}}
@@ -31,9 +33,9 @@
    <div class="login-page">
         <div class="form">
             <form class="login-form">
-                <input type="text" placeholder="Username" required/>
-                <input type="password" placeholder="Password" required/>
-                <button>login</button>
+                <input type="text" placeholder="Username" name="username" required/>
+                <input type="password" placeholder="Password" name="password" required/>
+                <input type="submit" value="Login"/>
                 <p class="message">Not registered? <a href="{{pathFor route='register'}}">Create an account</a></p>
             </form>
         </div>
@@ -67,12 +69,42 @@
 
 <template name="home">
     <h2>Home</h2>
+{{#if currentUser}}
     <p>Welcome {{currentUser}}</p>
     <form class="home">
         <p>First Name: <input type="text" name="bloggerName" required></p>
         <p>Last Name : <input type="text" name="bloggerLastName" required></p>
         <p>Title of article : <input type="text" name="title" required></p>
-        <p><textarea maxlength="2000" rows="20" cols="100">Publish article</textarea> </p>
+        <p><textarea maxlength="2000" rows="20" cols="100" name="article">Publish article</textarea> </p>
         <p><input type="submit" value="Publish" ></p>
     </form>
+    {{else}}
+
+    <h2>hello</h2>
+    {{#each blogs}}
+        <h2>{{title}}</h2>
+        <h>{{article}}</h>
+    {{/each}}
+    {{/if}}
+</template>
+
+<template name="listblogs">
+    <div class="container">
+        <div class="row">
+    <h2>List of blogs</h2>
+{{#each blogs}}
+    <h3> {{title}}</h3>
+<!--<h4>{{article}}</h4>-->
+    <a href="/displayArticle" target="_id">{{title}}</a>
+{{/each}}
+        </div>
+    </div>
+</template>
+
+
+<template name="displayArticle">
+    <h2>hello</h2>
+    {{#each blogs1}}
+    <h2>{{article}}</h2>
+    {{/each}}
 </template>

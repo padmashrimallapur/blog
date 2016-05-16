@@ -1,5 +1,15 @@
-import { Meteor } from 'meteor/meteor';
-
-Meteor.startup(() => {
-  // code to run on server at startup
+Blogs = new Mongo.Collection("Blogs");
+Meteor.methods({
+    'submitPost':function(firstname, title, bloggerLastname, article){
+        console.log(title);
+        console.log(firstname);
+        Blogs.insert({
+            title:title,
+            firstname : firstname,
+            bloggerLastname: bloggerLastname,
+            article : article
+        })
+    }
 });
+
+

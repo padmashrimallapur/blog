@@ -1,4 +1,4 @@
-//users = new Mongo.Collection('users');
+Blogs = new Mongo.Collection('Blogs', {idGeneration: 'MONGO'});
 if (Meteor.isClient) {
 
   Template.registerHelper('currentUser',function(input){
@@ -41,6 +41,7 @@ if (Meteor.isClient) {
     'click .logout': function(event){
       event.preventDefault();
       Meteor.logout();
+      Session.set("currentUser", "");
       Router.go('login');
     }
   });
@@ -66,6 +67,8 @@ Template.login.events({
 
 
 
+
+
 Meteor.methods({
   checkPassword: function(password, confirmPassword){
    // check(password, String);
@@ -74,8 +77,50 @@ Meteor.methods({
       console.log("Password should match");
     }
   }
+});
+
+
+Template.home.events({
+  'submit form': function (event) {
+     var firstName = $('[name=bloggerName]').val();
+     var bloggerLastName = $('[name=bloggerLastName]').val();
+     var article = $('[name=article]').val();
+     var title = $('[name=title]').val();
+
+    // blogs1.insert({
+    //     firstName: firstName,
+    //     bloggerLastName: bloggerLastName,
+    //     article: article,
+    //     title: title
+    // });
+
+    Meteor.call("submitPost", firstName, title, bloggerLastName, article);
+
+  }
+
+
+
 })
+
+Template.home.blogs = function(){
+  return Blogs.find();
+}
+
+Template.listblogs.events({
+  "click a[target-blank]" : function(event){
+    window.open(event.target.href, "_blank");
+    alert("sjdjdvs");
+    //return Blogs.find();
+    var article = Blogs.findOne({title: "Basic concepts of LINUX"});
+  }
+});
+
+Template.displayArticle.blogs1 = function(){
+  return  Blogs.findOne({firstName: "padma"});
+}
 
 Router.route('/register');
 Router.route('/login');
 Router.route('/home');
+Router.route('/listblogs');
+Router.route('/displayArticle');

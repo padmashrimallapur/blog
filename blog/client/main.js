@@ -1,8 +1,13 @@
 Blogs = new Mongo.Collection('Blogs', {idGeneration: 'MONGO'});
+
 if (Meteor.isClient) {
 
   Template.registerHelper('currentUser',function(input){
     return Session.get("currentUser");
+  });
+
+  Template.registerHelper('avatar',function(input){
+      return  "/images/default-user.png";
   });
 
   Template.register.events ({
@@ -57,17 +62,13 @@ Template.login.events({
         console.log(error.reason);
       }
       else{
-        console.log("you are successfully logged in");
-        Session.set("currentUser", username);
-        Router.go('home');
+          console.log("you are successfully logged in");
+          Session.set("currentUser", username);
+          Router.go('home');
       }
     });
   }
 });
-
-
-
-
 
 Meteor.methods({
   checkPassword: function(password, confirmPassword){
@@ -78,7 +79,6 @@ Meteor.methods({
     }
   }
 });
-
 
 Template.home.events({
   'submit form': function (event) {
@@ -95,16 +95,12 @@ Template.home.events({
     // });
 
     Meteor.call("submitPost", firstName, title, bloggerLastName, article);
-
   }
-
-
-
-})
+});
 
 Template.home.blogs = function(){
   return Blogs.find();
-}
+};
 
 Template.listblogs.events({
   "click a[target-blank]" : function(event){
@@ -117,7 +113,7 @@ Template.listblogs.events({
 
 Template.displayArticle.blogs1 = function(){
   return  Blogs.findOne({firstName: "padma"});
-}
+};
 
 Router.route('/register');
 Router.route('/login');

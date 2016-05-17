@@ -1,8 +1,18 @@
 Blogs = new Mongo.Collection('Blogs', {idGeneration: 'MONGO'});
+
 if (Meteor.isClient) {
+
+
+
+
+
 
   Template.registerHelper('currentUser',function(input){
     return Session.get("currentUser");
+  });
+
+  Template.registerHelper('avatar',function(input){
+      return  "/images/default-user.png";
   });
 
   Template.register.events ({
@@ -47,6 +57,7 @@ if (Meteor.isClient) {
   });
 }
 
+
 Template.login.events({
   'submit form': function(event){
     event.preventDefault();
@@ -57,17 +68,13 @@ Template.login.events({
         console.log(error.reason);
       }
       else{
-        console.log("you are successfully logged in");
-        Session.set("currentUser", username);
-        Router.go('home');
+          console.log("you are successfully logged in");
+          Session.set("currentUser", username);
+          Router.go('home');
       }
     });
   }
 });
-
-
-
-
 
 Meteor.methods({
   checkPassword: function(password, confirmPassword){
@@ -79,13 +86,13 @@ Meteor.methods({
   }
 });
 
-
 Template.home.events({
   'submit form': function (event) {
      var firstName = $('[name=bloggerName]').val();
      var bloggerLastName = $('[name=bloggerLastName]').val();
      var article = $('[name=article]').val();
      var title = $('[name=title]').val();
+    var username = Session.get('currentUser');
 
     // blogs1.insert({
     //     firstName: firstName,
@@ -94,30 +101,20 @@ Template.home.events({
     //     title: title
     // });
 
-    Meteor.call("submitPost", firstName, title, bloggerLastName, article);
-
-  }
-
-
-
-})
-
-Template.home.blogs = function(){
-  return Blogs.find();
-}
-
-Template.listblogs.events({
-  "click a[target-blank]" : function(event){
-    window.open(event.target.href, "_blank");
-    alert("sjdjdvs");
-    //return Blogs.find();
-    var article = Blogs.findOne({title: "Basic concepts of LINUX"});
+    Meteor.call("submitPost", firstName, title, bloggerLastName, article, username);
   }
 });
 
-Template.displayArticle.blogs1 = function(){
-  return  Blogs.findOne({firstName: "padma"});
-}
+Template.home.blogs = function(){
+  return Blogs.find();
+};
+
+Template.listblogs.blogs1= function(){
+  username = Session.get("currentUser");
+ return Blogs.find({"username" : username});
+};
+
+
 
 Router.route('/register');
 Router.route('/login');

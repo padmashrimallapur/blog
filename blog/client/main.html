@@ -93,10 +93,26 @@
         <div class="row">
     <h2>List of my blogs</h2>
                 {{#each blogs1}}
-                <h2>{{title}}</h2>
+                <h2>{{title}}  <button value="{{this._id}}" name="editBlog">Edit Blog</button></h2>
                     <p>{{article}}</p>
                 {{/each}}
+
+
         </div>
     </div>
+</template>
+
+<template name="editBlog">
+    <form class="home">
+        {{#each currentBlog}}
+
+
+        <p>First Name: <input type="text" name="bloggerName"  value={{firstname}} required></p>
+        <p>Last Name : <input type="text" name="bloggerLastName" value={{bloggerLastname}} required></p>
+        <p>Title of article : <input type="text" name="title" value ={{title}} required></p>
+        <p><textarea maxlength="2000" rows="20" cols="100" name="article">{{article}}</textarea> </p>
+        <p><input type="submit" value="Publish"></p>
+        {{/each}}
+    </form>
 </template>
 

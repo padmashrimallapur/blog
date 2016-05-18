@@ -105,6 +105,18 @@ Template.home.events({
   }
 });
 
+Template.listblogs.events({
+  'click button' : function (event) {
+    var blogId = event.target.value;
+
+    Template.editBlog.currentBlog= function () {
+      return Blogs.find({"_id" : blogId});
+
+    };
+    Router.go('editBlog');
+  }
+});
+
 Template.home.blogs = function(){
   return Blogs.find();
 };
@@ -116,8 +128,10 @@ Template.listblogs.blogs1= function(){
 
 
 
+
 Router.route('/register');
 Router.route('/login');
 Router.route('/home');
 Router.route('/listblogs');
 Router.route('/displayArticle');
+Router.route('/editBlog');

@@ -1,36 +1,21 @@
 <head>
   <title>Blog</title>
+    <link rel="stylesheet" href="/css/blogs.css">
 </head>
 <body>
-    <a class="logo" href="{{pathFor route='home'}}">Welcome to Blogging.com</a>
+    <a class="logo" href="{{pathFor route='home'}}">Welcome to Blogs.com</a>
     {{> navigation}}
 </body>
 
 <template name="navigation">
     <div class="nav">
-
-
-    <ul>
-        <li><a href="{{pathFor route='home'}}">Home</a></li>
-        <!--<li><a href="{{pathFor route='listblogs'}}">Blog List</a></li>-->
-        {{#if currentUser}}
-            <li><a href="#" class="logout">Logout</a></li>
-            <div class="profile"> {{> profile}} </div>
-        {{else}}
-        <li><a href="{{pathFor route='login'}}">Login</a></li>
+        <ul>
+            {{#if currentUser}}
+                <div class="profile"> {{> profile}} </div>
+            {{else}}
+                <li><a href="{{pathFor route='login'}}">Login</a></li>
             {{/if}}
-    </ul>
-
-
-        <!--<ul>-->
-            <!--{{#if currentUser}}-->
-                <!---->
-            <!--{{else}}-->
-                <!--<li><a href="{{pathFor route='login'}}">Login</a></li>-->
-            <!--{{/if}}-->
-        <!--</ul>-->
-
-
+        </ul>
     </div>
 </template>
 
@@ -48,9 +33,10 @@
 </template>
 
 <template name="profile">
-    <!--<li><a href="#" class="logout">Logout</a></li>-->
+    <li><a href="#" class="logout">Logout</a></li>
+    <li><a href="{{pathFor route="newblog"}}">New Blog</a></li>
     <li><a href="{{pathFor route="listblogs"}}">My Blogs</a></li>
-    <li ><img src="{{avatar}}"/> {{currentUser}} </li>
+    <li ><img src="{{avatar}}"/> {{currentUser.username}} </li>
 </template>
 
 <template name="register">
@@ -69,50 +55,69 @@
 </template>
 
 <template name="home">
-    <h2>Home</h2>
+    {{#each blog in allblogs}}
+    <div class="container">
+        <div class="listblogs">
+            <a href="" value="{{blog._id}}" name="viewBlog"> <h3> {{blog.title}} </h3> </a>
+        </div>
+    </div>
+    {{/each}}
+</template>
+
+<template name="newblog">
     {{#if currentUser}}
-        <p>Welcome {{currentUser}}</p>
-        <form class="home">
-            <p>First Name: <input type="text" name="bloggerName" required></p>
-            <p>Last Name : <input type="text" name="bloggerLastName" required></p>
-            <p>Title of article : <input type="text" name="title" required></p>
-            <p><textarea maxlength="2000" rows="20" cols="100" name="article">Publish article</textarea> </p>
-            <p><input type="submit" value="Publish"></p>
+        <form class="newblog-form">
+            <div class="blogpost">
+                <p>First Name: <input type="text" name="bloggerName" required></p>
+                <p>Last Name: <input type="text" name="bloggerLastName" required></p>
+                <p>Title of article: <input type="text" name="title" required></p>
+                <p><textarea maxlength="2000" rows="20" cols="100" name="article">Publish article</textarea> </p>
+                <button onclick="submit">Publish</button>
+            </div>
         </form>
     {{else}}
-        <h2>hello</h2>
-        {{#each blogs}}
-            <h2>{{title}}</h2>
-            <h>{{article}}</h>
-        {{/each}}
+        {{>login}}
     {{/if}}
 </template>
 
 <template name="listblogs">
     <div class="container">
-        <div class="row">
-    <h2>List of my blogs</h2>
-                {{#each blogs1}}
-                <h2>{{title}}  <button value="{{this._id}}" name="editBlog">Edit Blog</button></h2>
-                    <p>{{article}}</p>
-                {{/each}}
-
-
+        <div class="listblogs">
+            {{#each myblogs}}
+                <button value="{{this._id}}" name="editBlog">Edit</button>
+                <button value="{{this._id}}" name="editBlog">Delete</button>
+                <h3>{{title}}</h3>
+                <p>{{article}}</p>
+            {{/each}}
         </div>
     </div>
 </template>
 
 <template name="editBlog">
-    <form class="home">
-        {{#each currentBlog}}
+    <form>
+        <div class="blogpost">
+            {{#each currentBlog}}
+                <p>First Name: <input type="text" name="bloggerName"  value={{firstname}} required></p>
+                <p>Last Name : <input type="text" name="bloggerLastName" value={{bloggerLastname}} required></p>
+                <p>Title of article : <input type="text" name="title" value ={{title}} required></p>
+                <p><textarea maxlength="2000" rows="20" cols="100" name="article">{{article}}</textarea> </p>
+                <p><button onclick="submit">Publish</button></p>
+            {{/each}}
+        </div>
+    </form>
+</template>
 
-
-        <p>First Name: <input type="text" name="bloggerName"  value={{firstname}} required></p>
-        <p>Last Name : <input type="text" name="bloggerLastName" value={{bloggerLastname}} required></p>
-        <p>Title of article : <input type="text" name="title" value ={{title}} required></p>
-        <p><textarea maxlength="2000" rows="20" cols="100" name="article">{{article}}</textarea> </p>
-        <p><input type="submit" value="Publish"></p>
-        {{/each}}
+<template name="viewBlog">
+    <form>
+        <div class="blogpost">
+            {{#each currentBlog}}
+                <p>First Name: <input type="text" name="bloggerName"  value={{firstname}} required></p>
+                <p>Last Name : <input type="text" name="bloggerLastName" value={{bloggerLastname}} required></p>
+                <p>Title of article : <input type="text" name="title" value ={{title}} required></p>
+                <p><textarea maxlength="2000" rows="20" cols="100" name="article">{{article}}</textarea> </p>
+                <p><button onclick="submit">Publish</button></p>
+            {{/each}}
+        </div>
     </form>
 </template>
 

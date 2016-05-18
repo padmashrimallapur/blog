@@ -1,0 +1,72 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.blogpost {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    padding: 45px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.blogpost input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+
+.blogpost button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+
+.listblogs {
+    position: relative;
+    background: #FFFFFF;
+    padding: 45px;
+    margin: 20px 0 15px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    list-style: none;
+    width: 150px;
+    text-align: center;
+}
+
+.listblogs h3 {
+    text-transform: capitalize;
+    color: #6c7690;
+}
+
+.listblogs button {
+    font-family: "Roboto", sans-serif;
+    text-transform: capitalize;
+    outline: 0;
+    background: #4CAF50;
+    border: 0;
+    padding: 10px;
+    color: #FFFFFF;
+    font-size: 10px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    margin: 0 0 15px;
+}

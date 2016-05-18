@@ -2,19 +2,11 @@ Blogs = new Mongo.Collection('Blogs', {idGeneration: 'MONGO'});
 
 if (Meteor.isClient) {
 
-
-
-
-
-
-  Template.registerHelper('currentUser',function(input){
-    return Session.get("currentUser");
-  });
-
   Template.registerHelper('avatar',function(input){
       return  "/images/default-user.png";
   });
 
+  Router.route('/register');
   Template.register.events ({
     'submit form' : function(event){
       event.preventDefault();
@@ -37,10 +29,8 @@ if (Meteor.isClient) {
         confirmPassword : confirmPassword},
           function (error) {
             if(error){
-            //error info
               return false;
-          }else {
-            //
+          } else {
               Router.go('home');
             }
           });
@@ -51,13 +41,12 @@ if (Meteor.isClient) {
     'click .logout': function(event){
       event.preventDefault();
       Meteor.logout();
-      Session.set("currentUser", "");
-      Router.go('login');
+      Router.go('home');
     }
   });
 }
 
-
+Router.route('/login');
 Template.login.events({
   'submit form': function(event){
     event.preventDefault();
@@ -69,7 +58,6 @@ Template.login.events({
       }
       else{
           console.log("you are successfully logged in");
-          Session.set("currentUser", username);
           Router.go('home');
       }
     });
@@ -86,25 +74,25 @@ Meteor.methods({
   }
 });
 
-Template.home.events({
+Router.route('/newblog');
+Template.newblog.events({
   'submit form': function (event) {
-     var firstName = $('[name=bloggerName]').val();
-     var bloggerLastName = $('[name=bloggerLastName]').val();
-     var article = $('[name=article]').val();
-     var title = $('[name=title]').val();
-    var username = Session.get('currentUser');
-
-    // blogs1.insert({
-    //     firstName: firstName,
-    //     bloggerLastName: bloggerLastName,
-    //     article: article,
-    //     title: title
-    // });
-
+    var firstName = $('[name=bloggerName]').val();
+    var bloggerLastName = $('[name=bloggerLastName]').val();
+    var article = $('[name=article]').val();
+    var title = $('[name=title]').val();
+    var username = Meteor.user().username;
     Meteor.call("submitPost", firstName, title, bloggerLastName, article, username);
   }
 });
 
+Router.route('/listblogs');
+Template.listblogs.myblogs = function(){
+  username = Meteor.user().username;
+  return Blogs.find({"username" : username});
+};
+
+Router.route('/editBlog');
 Template.listblogs.events({
   'click button' : function (event) {
     var blogId = event.target.value;
@@ -117,21 +105,20 @@ Template.listblogs.events({
   }
 });
 
-Template.home.blogs = function(){
+
+Router.route('/home');
+Template.home.allblogs = function(){
   return Blogs.find();
 };
 
-Template.listblogs.blogs1= function(){
-  username = Session.get("currentUser");
- return Blogs.find({"username" : username});
-};
+Router.route('/viewBlog');
+Template.home.events({
+  'click href' : function (event) {
+    var blogId = event.target.value;
 
-
-
-
-Router.route('/register');
-Router.route('/login');
-Router.route('/home');
-Router.route('/listblogs');
-Router.route('/displayArticle');
-Router.route('/editBlog');
+    Template.editBlog.currentBlog= function () {
+      return Blogs.find({"_id" : blogId});
+    };
+    Router.go('viewBlog');
+  }
+});

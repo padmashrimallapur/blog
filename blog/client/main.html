@@ -58,15 +58,28 @@
     {{#each blog in allblogs}}
     <div class="container">
         <div class="listblogs">
-            <a href="" value="{{blog._id}}" name="viewBlog"> <h3> {{blog.title}} </h3> </a>
+            <a href="/viewBlog/{{blog._id}}"   name="viewBlog1" target="{{blog._id}}" data-action="view"> <h3> {{blog.title}}
+                <input type="hidden" value="{{blog._id}}" id= "blogId1" name="blogId1" /></h3> </a>
         </div>
     </div>
     {{/each}}
 </template>
 
+<template name="viewOneBlog">
+    <div class="container">
+        <div class="listblogs">
+            <div>
+            <h3> {{title}}</h3>
+            <p><h5>published by: {{firstname }} {{bloggerLastname}}  {{dateFormater date}}&nbsp;&nbsp;</h5></p>
+            </div>
+           <textarea readonly maxlength="2000" rows="20" cols="100" style="border-width: 0px">{{article}}</textarea>
+    </div>
+    </div>
+</template>
+
 <template name="newblog">
     {{#if currentUser}}
-        <form class="newblog-form">
+        <form class="newblog-form" method="get">
             <div class="blogpost">
                 <p>First Name: <input type="text" name="bloggerName" required></p>
                 <p>Last Name: <input type="text" name="bloggerLastName" required></p>
@@ -81,27 +94,40 @@
 </template>
 
 <template name="listblogs">
-    <div class="container">
+    <div class="container" >
         <div class="listblogs">
-            {{#each myblogs}}
-                <button value="{{this._id}}" name="editBlog">Edit</button>
-                <button value="{{this._id}}" name="editBlog">Delete</button>
-                <h3>{{title}}</h3>
-                <p>{{article}}</p>
-            {{/each}}
+
+            {{#unless isEmpty myblogs}}
+                <h2>You haven't published any article. Click on new blog to publish your article</h2>
+                {{/unless}}
+            {{#if myblogs}}
+                    {{#each myblogs}}
+                    <ul style="list-style-type:disc">
+                        <li><h3>{{title}}</h3></li>
+                    </ul>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button value="{{this._id}}" name="editBlog"  style="height: 30px; width: 40px;margin-top: 30px;"  class="edit">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button value="{{this._id}}" style="height: 30px; width: 40px; margin-top: 30px;" class="deleteBlog" >Delete</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {{/each}}
+            {{else}}
+                <h2>You haven't published any article. Click on new blog to publish your article</h2>
+            {{/if}}
         </div>
     </div>
 </template>
 
 <template name="editBlog">
-    <form>
+    <form method="post">
         <div class="blogpost">
+            {{#if result}}
+                <p>sjcbJbs jsbcjkbc bjkbcjkbjk kzkdbcjkb  hbcjb mdnz hbadmc ambcaj ksbckjbckjbckaj  abcajbckajk jbscjsbckj</p>
+                {{/if}}
             {{#each currentBlog}}
                 <p>First Name: <input type="text" name="bloggerName"  value={{firstname}} required></p>
                 <p>Last Name : <input type="text" name="bloggerLastName" value={{bloggerLastname}} required></p>
                 <p>Title of article : <input type="text" name="title" value ={{title}} required></p>
                 <p><textarea maxlength="2000" rows="20" cols="100" name="article">{{article}}</textarea> </p>
-                <p><button onclick="submit">Publish</button></p>
+          <input type="hidden" value={{this._id}} name="blogId" />
+                <p><button onclick="submit">Update</button></p>
             {{/each}}
         </div>
     </form>
@@ -110,6 +136,7 @@
 <template name="viewBlog">
     <form>
         <div class="blogpost">
+
             {{#each currentBlog}}
                 <p>First Name: <input type="text" name="bloggerName"  value={{firstname}} required></p>
                 <p>Last Name : <input type="text" name="bloggerLastName" value={{bloggerLastname}} required></p>
@@ -117,6 +144,7 @@
                 <p><textarea maxlength="2000" rows="20" cols="100" name="article">{{article}}</textarea> </p>
                 <p><button onclick="submit">Publish</button></p>
             {{/each}}
+
         </div>
     </form>
 </template>

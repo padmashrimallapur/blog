@@ -4,3 +4,14 @@
 - Each user will have their own blog. Each blog entry will consist of: Title, Description, Date/Time, User. 
 
 - Each user can have CUD functionality after signing in.
+
+To Install this demo,
+1 - Install meteor https://www.meteor.com/install 
+    curl https://install.meteor.com/ | sh
+    
+2 - Download latest code from github (git clone https://github.com/padmashrimallapur/blog.git) 
+
+3 - Change directory to blog directoy 
+    - cd blog/blog 
+    - meteor ---> this will start app on localhost (http://localhost:3000) by default port will be 3000, you can change port
+    with --port option (meteor --port <port number>
